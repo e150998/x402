@@ -85,7 +85,9 @@ export async function createPayment<transport extends Transport, chain extends C
   x402Version: number,
   paymentRequirements: PaymentRequirements,
 ): Promise<PaymentPayload> {
-  const from = isSignerWallet(client) ? client.account!.address : client.address;
+  // const from = isSignerWallet(client) ? client.account!.address : client.address;
+  const from = "0x7f46b96341769fe8149e961c381ba512e368e6f8"
+  console.log("Creating payment from address:", from);
   const unsignedPaymentHeader = preparePaymentHeader(from, x402Version, paymentRequirements);
   return signPaymentHeader(client, paymentRequirements, unsignedPaymentHeader);
 }
@@ -104,5 +106,6 @@ export async function createPaymentHeader(
   paymentRequirements: PaymentRequirements,
 ): Promise<string> {
   const payment = await createPayment(client, x402Version, paymentRequirements);
+  console.log("Payment header", payment)
   return encodePayment(payment);
 }

@@ -24,10 +24,13 @@ const api = withPaymentInterceptor(
   account,
 );
 
+console.log(`Using base URL: ${baseURL}${endpointPath}`);
+
 api
   .get(endpointPath)
   .then(response => {
     console.log(response.data);
+    // console.log("here")
 
     const paymentResponse = decodeXPaymentResponse(response.headers["x-payment-response"]);
     console.log(paymentResponse);

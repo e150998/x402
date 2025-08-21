@@ -15,6 +15,7 @@ import {
   VerifyResponse,
 } from "../../../types/verify";
 import { SCHEME } from "../../exact";
+import { isErc6492Signature } from "viem";
 
 /**
  * Verifies a payment payload against the required payment details
@@ -103,6 +104,7 @@ export async function verify<
     ...permitTypedData,
     signature: payload.payload.signature as Hex,
   });
+  console.log("recoveredAddress", recoveredAddress, payload.payload.authorization.from);
   if (!recoveredAddress) {
     return {
       isValid: false,
@@ -145,6 +147,8 @@ export async function verify<
     erc20Address,
     payload.payload.authorization.from as Address,
   );
+  
+  console.log("balance", balance, paymentRequirements.maxAmountRequired);
   if (balance < BigInt(paymentRequirements.maxAmountRequired)) {
     return {
       isValid: false,
@@ -197,7 +201,11 @@ export async function settle<transport extends Transport, chain extends Chain>(
   }
 
   // Returns the original signature (no-op) if the signature is not a 6492 signature
-  const { signature } = parseErc6492Signature(paymentPayload.payload.signature as Hex);
+  console.log("isErc6492Signature", isErc6492Signature(paymentPayload.payload.signature as Hex));
+  const { address, data, signature } = parseErc6492Signature(paymentPayload.payload.signature as Hex);
+
+  console.log("signatures", signature, address, data);
+  console.log(paymentPayload.payload.authorization.from, paymentPayload.payload.authorization.to);
 
   const tx = await wallet.writeContract({
     address: paymentRequirements.asset as Address,
@@ -214,6 +222,8 @@ export async function settle<transport extends Transport, chain extends Chain>(
     ],
     chain: wallet.chain as Chain,
   });
+
+  console.log("tx", tx);
 
   const receipt = await wallet.waitForTransactionReceipt({ hash: tx });
 

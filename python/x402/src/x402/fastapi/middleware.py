@@ -182,7 +182,7 @@ def require_payment(
         verify_response = await facilitator.verify(
             payment, selected_payment_requirements
         )
-
+        
         if not verify_response.is_valid:
             error_reason = verify_response.invalid_reason or "Unknown error"
             return x402_response(f"Invalid payment: {error_reason}")

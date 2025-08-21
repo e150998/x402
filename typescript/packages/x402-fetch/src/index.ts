@@ -6,6 +6,7 @@ import {
   selectPaymentRequirements,
 } from "x402/client";
 
+
 /**
  * Enables the payment of APIs using the x402 payment protocol.
  *
@@ -44,6 +45,7 @@ export function wrapFetchWithPayment(
   paymentRequirementsSelector: PaymentRequirementsSelector = selectPaymentRequirements,
 ) {
   return async (input: RequestInfo, init?: RequestInit) => {
+    console.log(input, init)
     const response = await fetch(input, init);
 
     if (response.status !== 402) {
@@ -55,6 +57,8 @@ export function wrapFetchWithPayment(
       accepts: unknown[];
     };
     const parsedPaymentRequirements = accepts.map(x => PaymentRequirementsSchema.parse(x));
+
+    console.log("Parsed payment requirements:", parsedPaymentRequirements);
 
     const chainId = evm.isSignerWallet(walletClient) ? walletClient.chain?.id : undefined;
     const selectedPaymentRequirements = paymentRequirementsSelector(
@@ -90,6 +94,8 @@ export function wrapFetchWithPayment(
       },
       __is402Retry: true,
     };
+
+    console.log(input, newInit);
 
     const secondResponse = await fetch(input, newInit);
     return secondResponse;

@@ -81,6 +81,9 @@ importers:
 
   packages/x402:
     dependencies:
+      '@aa-sdk/core':
+        specifier: ^4.52.2
+        version: 4.52.2(typescript@5.8.3)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       viem:
         specifier: ^2.21.26
         version: 2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
@@ -567,6 +570,11 @@ importers:
         version: 5.8.3
 
 packages:
+
+  '@aa-sdk/core@4.52.2':
+    resolution: {integrity: sha512-7LLNELTIxZBfdrWn3NhBtnFuBr1d7Wprem8FAx2OE2gEJ8ij+Lk/TM7TRGhVxdljO14we+Ib0DApGpD3gjRN9Q==}
+    peerDependencies:
+      viem: ^2.29.2
 
   '@adraffy/ens-normalize@1.11.0':
     resolution: {integrity: sha512-/3DDPKHqqIqxUULp8yP4zODUY1i+2xvVWsv8A79xGWdCAG+8sb0hRh0Rk2QyOJUnnbyPUAZYcpBuRe3nS2OIUg==}
@@ -2541,6 +2549,15 @@ packages:
 
   '@walletconnect/window-metadata@1.0.1':
     resolution: {integrity: sha512-9koTqyGrM2cqFRW517BPY/iEtUDx2r1+Pwwu5m7sJ7ka79wi3EyqhqcICk/yDmv6jAS1rjKgTKXlEhanYjijcA==}
+
+  abitype@0.8.11:
+    resolution: {integrity: sha512-bM4v2dKvX08sZ9IU38IN5BKmN+ZkOSd2oI4a9f0ejHYZQYV6cDr7j+d95ga0z2XHG36Y4jzoG5Z7qDqxp7fi/A==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.19.1
+    peerDependenciesMeta:
+      zod:
+        optional: true
 
   abitype@1.0.6:
     resolution: {integrity: sha512-MMSqYh4+C/aVqI2RQaWqbvI4Kxo5cQV40WQ4QFtDnNzCkqChm8MuENhElmynZlO0qUy/ObkEUaXtKqYnx1Kp3A==}
@@ -5645,6 +5662,15 @@ packages:
 
 snapshots:
 
+  '@aa-sdk/core@4.52.2(typescript@5.8.3)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))':
+    dependencies:
+      abitype: 0.8.11(typescript@5.8.3)(zod@3.25.67)
+      eventemitter3: 5.0.1
+      viem: 2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
+      zod: 3.25.67
+    transitivePeerDependencies:
+      - typescript
+
   '@adraffy/ens-normalize@1.11.0': {}
 
   '@alloc/quick-lru@5.2.0': {}
@@ -8604,6 +8630,12 @@ snapshots:
     dependencies:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
+
+  abitype@0.8.11(typescript@5.8.3)(zod@3.25.67):
+    dependencies:
+      typescript: 5.8.3
+    optionalDependencies:
+      zod: 3.25.67
 
   abitype@1.0.6(typescript@5.8.3)(zod@3.25.67):
     optionalDependencies:

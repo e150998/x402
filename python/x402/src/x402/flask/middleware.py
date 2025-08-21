@@ -190,6 +190,8 @@ class PaymentMiddleware:
                     )
                 ]
 
+                
+
                 def x402_response(error: str):
                     """Create a 402 response with payment requirements."""
                     request_headers = dict(request.headers)
@@ -244,12 +246,19 @@ class PaymentMiddleware:
                 # Verify payment (async call in sync context)
                 import asyncio
 
+                print("here")
+
                 try:
                     loop = asyncio.new_event_loop()
                     asyncio.set_event_loop(loop)
                     verify_response = loop.run_until_complete(
                         facilitator.verify(payment, selected_payment_requirements)
                     )
+                    print(f"{payment}\n\n\n")
+                    print(selected_payment_requirements)
+                    print()
+                    print(verify_response)
+
                 finally:
                     loop.close()
 

@@ -11,7 +11,9 @@ from x402.types import (
     ListDiscoveryResourcesRequest,
     ListDiscoveryResourcesResponse,
 )
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 class FacilitatorConfig(TypedDict, total=False):
     """Configuration for the X402 facilitator service.
@@ -28,10 +30,10 @@ class FacilitatorConfig(TypedDict, total=False):
 class FacilitatorClient:
     def __init__(self, config: Optional[FacilitatorConfig] = None):
         if config is None:
-            config = {"url": "https://x402.org/facilitator"}
+            config = {"url": os.getenv("FACILITATOR_URL")}
 
         # Validate URL format
-        url = config.get("url", "")
+        url = config.get("url")
         if not url.startswith(("http://", "https://")):
             raise ValueError(f"Invalid URL {url}, must start with http:// or https://")
         if url.endswith("/"):
@@ -48,6 +50,14 @@ class FacilitatorClient:
         if self.config.get("create_headers"):
             custom_headers = await self.config["create_headers"]()
             headers.update(custom_headers.get("verify", {}))
+        
+        print({
+                    "x402Version": payment.x402_version,
+                    "paymentPayload": payment.model_dump(by_alias=True),
+                    "paymentRequirements": payment_requirements.model_dump(
+                        by_alias=True, exclude_none=True
+                    ),
+                })
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
@@ -89,6 +99,8 @@ class FacilitatorClient:
                 follow_redirects=True,
             )
             data = response.json()
+            print(data)
+            print("\n\n\n\n\n")
             return SettleResponse(**data)
 
     async def list(
